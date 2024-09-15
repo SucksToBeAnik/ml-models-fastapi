@@ -1,0 +1,35 @@
+name: project's neuron
+
+services:
+  api:
+    restart: always
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "80:80"
+    depends_on:
+      - database
+    volumes:
+      - ${PWD}:/app
+    environment:
+      - DATABASE_URL=postgresql://admin:admin12345@projectsneuron-database-1:5432/mydb
+  database:
+    image: postgres
+    restart: always
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: "admin12345"
+      POSTGRES_DB: mydb
+    volumes:
+      - storage:/var/lib/postgresql/data
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      - 8080:8080
+
+volumes:
+  storage:
