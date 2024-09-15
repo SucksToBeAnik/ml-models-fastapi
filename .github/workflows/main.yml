@@ -14,4 +14,10 @@ jobs:
         steps:
             - uses: actions/checkout@v4
             - run: |
+                docker ps -a
                 docker compose up -d --build
+    allow-production:
+        runs-on: ubuntu-latest
+        environment: production
+        steps:
+            - run: echo "Code being added to main"
